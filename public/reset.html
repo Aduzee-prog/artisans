@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Change Password</title>
+</head>
+
+<body>
+    <div id="app">
+        <div>
+            <h4>Change Your Password</h4>
+            <p>Enter a new password below to change your account password.</p>
+        </div>
+
+        <div id="message-box">
+        </div>
+
+            <div>
+                <label for="newPassword">New Password</label>
+                <input type="password" id="newPassword" placeholder="Enter new password">
+            </div>
+
+            <div>
+                <label for="rePassword">Re-enter New Password</label>
+                <input type="password" id="rePassword" placeholder="Re-enter new password">
+            </div>
+
+        </div>
+
+        <div>
+            <button onclick="resetPassword()" id="reset-btn">
+                Reset Password
+            </button>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+        import { getAuth, updatePassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+        const firebaseConfig = {
+            apiKey: "AIzaSyCAT8IpE5Z5iihni50KAkoFCimN7teM1Mc",
+            authDomain: "new-work-d7d07.firebaseapp.com",
+            projectId: "new-work-d7d07",
+            storageBucket: "new-work-d7d07.firebasestorage.app",
+            messagingSenderId: "331304725785",
+            appId: "1:331304725785:web:e3c10e64f2606e7167a988",
+            measurementId: "G-C75LQ9Q7C9"
+        };
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                console.warn("No user is currently signed in. Password change requires re-authentication");
+            }
+        });
+        const showMessage = (message, type = 'error') => {
+            const box = document.getElementById('message-box');
+            box.textContent = message;
+            box.className = 'p-3 mb-6 text-sm rounded-lg border transition duration-300 ease-in-out';
+            box.classList.remove('hidden');
+
+            if (type === 'error') {
+                box.classList.add('bg-red-50', 'text-red-700', 'border-red-300');
+            } else if (type === 'success') {
+                box.classList.add('bg-green-50', 'text-green-700', 'border-green-300');
+            } else if (type === 'info') {
+                box.classList.add('bg-blue-50', 'text-blue-700', 'border-blue-300');
+            }
+
+            setTimeout(() => {
+                box.classList.add('hidden');
+            }, 5000);
+        };
+
+        const resetPassword = () => {
+            const resetBtn = document.getElementById('reset-btn');
+            const newPasswordInput = document.getElementById('newPassword');
+            const rePasswordInput = document.getElementById('rePassword');
+            
+            const newPassword = newPasswordInput.value.trim();
+            const rePassword = rePasswordInput.value.trim();
+
+            resetBtn.disabled = true;
+            resetBtn.classList.add('opacity-50', 'cursor-not-allowed');
+
+            newPasswordInput.value = '';
+            rePasswordInput.value = '';
+
+            if (newPassword === '' || rePassword === '') {
+                showMessage('Please fill in both password fields.', 'error');
+                resetBtn.disabled = false;
+                resetBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                return;
+            }
+
+            if (newPassword.length < 8) {
+                showMessage('Password should be at least 8 characters long.', 'error');
+                resetBtn.disabled = false;
+                resetBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                return;
+            }
+
+            if (newPassword !== rePassword) {
+                showMessage('Passwords do not match. Please try again.', 'error');
+                resetBtn.disabled = false;
+                resetBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                return;
+            }
+            
+            showMessage('Attempting to reset password...', 'info');
+
+            const user = auth.currentUser;
+            
+            if (!user) {
+                showMessage("Authentication required. Please sign in or re-authenticate before changing your password.", 'error');
+                resetBtn.disabled = false;
+                resetBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                return;
+            }
+
+            updatePassword(user, newPassword)
+                .then(() => {
+                    showMessage('Password updated successfully! Redirecting...');
+                    setTimeout(() => {
+                        window.location.href = 'signin.html';
+                    }, 1500);
+                })
+                .catch((error) => {
+                    console.error("Firebase Error:", error.code, error.message);
+                    
+                    let friendlyMessage = 'Failed to update password. Please try signing in again and trying immediately.';
+                    
+                    if (error.code === 'auth/requires-recent-login') {
+                        friendlyMessage = 'This action requires a recent login. Please sign out, sign back in, and try changing your password immediately.';
+                    } else if (error.message) {
+                        // Display the Firebase error message if it's available
+                        friendlyMessage = error.message;
+                    }
+                    
+                    showMessage(`Error: ${friendlyMessage}`, 'error');
+                })
+                .finally(() => {
+                    resetBtn.disabled = false;
+                    resetBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                });
+        }
+        window.resetPassword = resetPassword;
+        window.showMessage = showMessage;
+    </script>
+</body>
+
+</html>

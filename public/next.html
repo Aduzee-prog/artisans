@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Data</title>
+</head>
+
+<body>
+    <div id="app">
+
+        <div>
+            <h4>Personal Data</h4>
+            <p>
+                Please provide your residential and employment details to complete your profile verification. All fields
+                are required.
+            </p>
+        </div>
+
+        <div id="message-box">
+        </div>
+            <div>
+                <label for="dob">Date of Birth</label>
+                <input type="date" id="dob">
+            </div>
+
+            <div>
+                <label for="select">Select Job Type</label>
+                <select name="Select Job type" id="select">
+                    <option value="" disabled selected>Select Job type</option>
+                    <option value="Contract">Contract</option>
+                    <option value="Full Time">Full Time</option>
+                    <option value="Part Time">Part Time</option>
+                    <option value="Self Employed">Self Employed</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="street">Street Address</label>
+                <input type="text" placeholder="Enter Street Address" id="street">
+            </div>
+
+            <div>
+                <label for="country">Country</label>
+                <select name="Country" id="country">
+                    <option value="" disabled selected>Select Country</option>
+                    <option value="Algeria">Algeria</option>
+                    <option value="Angola">Angola</option>
+                    <option value="Benin">Benin</option>
+                    <option value="Botswana">Botswana</option>
+                    <option value="Burkina Faso">Burkina Faso</option>
+                    <option value="Burundi">Burundi</option>
+                    <option value="Cameroon">Cameroon</option>
+                    <option value="Cape Verde">Cape Verde</option>
+                    <option value="Cote D'Ivoire (Ivory Coast)">Cote D'Ivoire (Ivory Coast)</option>
+                    <option value="Egypt">Egypt</option>
+                    <option value="Ethopia">Ethopia</option>
+                    <option value="French Southern Territories">French Southern Territories</option>
+                    <option value="Gabon">Gabon</option>
+                    <option value="Ghana">Ghana</option>
+                    <option value="Kenya">Kenya</option>
+                    <option value="Liberia">Liberia</option>
+                    <option value="Mali">Mali</option>
+                    <option value="Maritius">Maritius</option>
+                    <option value="Namibia">Namibia</option>
+                    <option value="Niger">Niger</option>
+                    <option value="Nigeria">Nigeria</option>
+                    <option value="Rwanda">Rwanda</option>
+                    <option value="Somalia">Somalia</option>
+                    <option value="South Africa">South Africa</option>
+                    <option value="Tanzania">Tanzania</option>
+                    <option value="Togo">Togo</option>
+                    <option value="Uganda">Uganda</option>
+                    <option value="Western sahara">Western sahara</option>
+                    <option value="Zambia">Zambia</option>
+                    <option value="Zimbabwe">Zimbabwe</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="sor">State of Residence</label>
+                <select name="State of Residence" id="sor">
+                    <option value="" disabled selected>Select State</option>
+                    <option value="Lagos">Lagos</option>
+                    <option value="Oyo">Oyo</option>
+                    <option value="Osun">Osun</option>
+                    <option value="Abia">Abia</option>
+                    <option value="Ogun">Ogun</option>
+                    <option value="Akwa Ibom">Akwa Ibom</option>
+                    <option value="Anambra">Anambra</option>
+                    <option value="Bauchi">Bauchi</option>
+                    <option value="Bayelsa">Bayelsa</option>
+                    <option value="Benue">Benue</option>
+                    <option value="Borno">Borno</option>
+                    <option value="Cross River">Cross River</option>
+                    <option value="Delta">Delta</option>
+                    <option value="Ebonyi">Ebonyi</option>
+                    <option value="Edo">Edo</option>
+                    <option value="Ekiti">Ekiti</option>
+                    <option value="Enugu">Enugu</option>
+                    <option value="Gombe">Gombe</option>
+                    <option value="Imo">Imo</option>
+                    <option value="Jigawa">Jigawa</option>
+                    <option value="Kaduna">Kaduna</option>
+                    <option value="Kano">Kano</option>
+                    <option value="Katsina">Katsina</option>
+                    <option value="Kebbi">Kebbi</option>
+                    <option value="Kogi">Kogi</option>
+                    <option value="Kwara">Kwara</option>
+                    <option value="Nasarawa">Nasarawa</option>
+                    <option value="Niger">Niger</option>
+                    <option value="Ogun">Ogun</option>
+                    <option value="Ondo">Ondo</option>
+                    <option value="Osun">Osun</option>
+                    <option value="Oyo">Oyo</option>
+                    <option value="Plateau">Plateau</option>
+                    <option value="Rivers">Rivers</option>
+                    <option value="Sokoto">Sokoto</option>
+                    <option value="Taraba">Taraba</option>
+                    <option value="Yobe">Yobe</option>
+                    <option value="Zamfara">Zamfara</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="city">City</label>
+                <input type="text" placeholder="Eg. Oshodi, Aroje, Taki" id="city">
+            </div>
+
+        </div>
+
+        <div>
+            <p>
+                Already Registered? <a href="signin.html">Log in Now</a>
+            </p>
+
+            <div class="flex space-x-4">
+                <button onclick="backUser()">
+                    Back
+                </button>
+                <button onclick="savePersonalData()" id="next-btn">
+                    Next
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const showMessage = (message, type = 'error') => {
+            const box = document.getElementById('message-box');
+            box.textContent = message;
+            box.className = 'p-3 mb-6 text-sm rounded-lg border transition duration-300 ease-in-out';
+            box.classList.remove('hidden');
+
+            if (type === 'error') {
+                box.classList.add('bg-red-50', 'text-red-700', 'border-red-300');
+            } else if (type === 'success') {
+                box.classList.add('bg-green-50', 'text-green-700', 'border-green-300');
+            } else if (type === 'info') {
+                box.classList.add('bg-blue-50', 'text-blue-700', 'border-blue-300');
+            }
+
+            setTimeout(() => {
+                box.classList.add('hidden');
+            }, 5000);
+        };
+
+        const savePersonalData = () => {
+            const nextButton = document.getElementById('next-btn');
+
+            const dateOfBirth = document.getElementById('dob').value.trim();
+            const selectJob = document.getElementById('select').value.trim();
+            const street = document.getElementById('street').value.trim();
+            const country = document.getElementById('country').value.trim();
+            const state = document.getElementById('sor').value.trim();
+            const city = document.getElementById('city').value.trim();
+
+            nextButton.disabled = true;
+            nextButton.classList.add('opacity-50', 'cursor-not-allowed');
+
+            if ([dateOfBirth, street, city].some(val => val === '') || selectJob === '' || country === '' || state === '') {
+                showMessage('Please fill in all required fields.', 'error');
+                nextButton.disabled = false;
+                nextButton.classList.remove('opacity-50', 'cursor-not-allowed');
+                return;
+            } else {
+                localStorage.setItem('dob', dateOfBirth);
+                localStorage.setItem('select', selectJob);
+                localStorage.setItem('street', street);
+                localStorage.setItem('country', country);
+                localStorage.setItem('sor', state);
+                localStorage.setItem('city', city);
+                setTimeout(() => {
+                    window.location.href = "nexttwo.html";
+                }, 1500);
+            }
+
+            nextButton.disabled = false;
+            nextButton.classList.remove('opacity-50', 'cursor-not-allowed');
+        }
+
+        const backUser = () => {
+            setTimeout(() => {
+                window.location.href = "user.html";
+            }, 1500);
+        }
+        window.savePersonalData = savePersonalData;
+        window.backUser = backUser;
+        window.showMessage = showMessage;
+    </script>
+</body>
+
+</html>

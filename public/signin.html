@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In</title>
+    <link rel="stylesheet" href="styl.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+</head>
+
+<body>
+    <div>
+        <h4>Welcome Back to Artisan Connect</h4>
+        <p>We're glad to have you again.</p>
+        <p>Sign in to continue where you left off, connect, book, and manage your services effortlessly with
+            <b>Artisan Connect.</b>
+        </p>
+        <p>Reliable service is just one click away.</p>
+        <div>
+            <label for="email">Email Address</label>
+            <input type="email" placeholder="example@gmail.com" id="email">
+            <label for="password">Password</label>
+            <input type="password" placeholder="Password" id="password">
+        </div>
+        <div>
+            <a href="reset.html">Reset Password?</a>
+            <p>Don't have an account? <a href="" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Register now</a></p>
+        </div>
+        <button onclick="logUserIn()">Log in</button>
+    </div>
+    <div>
+        <button id="sign">sign in with google</button>
+    </div>
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Make sure you go for the right
+                        post</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <button onclick="registerUser()" class="m-2 fw-bold" id="hero" type="submit">Register as a
+                        user</button>
+                    <button onclick="registerCustomer()" class="m-2 fw-bold" type="submit">Register as a
+                        customer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+    crossorigin="anonymous"></script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
+        const firebaseConfig = {
+            apiKey: "AIzaSyDocTQeWER_kb6mxqNlmbv04M0339iaDDM",
+            authDomain: "project-8bb29.firebaseapp.com",
+            databaseURL: "https://project-8bb29-default-rtdb.firebaseio.com",
+            projectId: "project-8bb29",
+            storageBucket: "project-8bb29.firebasestorage.app",
+            messagingSenderId: "792700267479",
+            appId: "1:792700267479:web:d491f80fcd4c105faf3992",
+            measurementId: "G-KY94VPFHX5"
+        };
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const provider = new GoogleAuthProvider();
+
+        const logUserIn = () => {
+            let email = document.getElementById('email').value
+            let password = document.getElementById('password').value
+            if (email === '' || password === '') {
+                alert('Login with your details')
+            } else {
+                signInWithEmailAndPassword(auth, email, password)
+                    .then((userCredential) => {
+                        const user = userCredential.user;
+                        alert('Login Successfully')
+                        // setTimeout(() => {
+                        //     user ? window.location.href = 'reset.html' : window.location.href = 'signin.html'
+                        // }, 1500)
+                    })
+                    .catch((error) => {
+                        const errorCode = error.code;
+                        const errorMessage = error.message;
+                        if (errorCode === 'auth/invalid-credential') {
+                            alert('invalid credentials entry')
+                        } else {
+                            alert(errorMessage)
+                        }
+                    });
+                document.getElementById('email').value = ''
+                document.getElementById('password').value = ''
+            }
+        }
+
+        const btnAdd = document.getElementById('sign')
+        btnAdd.addEventListener('click', () => {
+            signInWithPopup(auth, provider)
+                .then((result) => {
+                    const user = result.user
+                    if (user) {
+                        setTimeout(()=>{
+                        //     user ? window.location.href = 'reset.html' : window.location.href = 'signin.html'
+                        },1500)
+                    } else {
+                        alert('Go back and sign up')
+                        setTimeout(()=>{
+                            window.location.href = 'index.html'
+                        })
+                    }
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                });
+        })
+        window.logUserIn = logUserIn
+    </script>
+</body>
+
+</html>

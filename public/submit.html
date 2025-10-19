@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Sign Up</title>
+</head>
+
+<body>
+    <div id="app">
+        <div>
+            <h4>Finish Creating Your Account</h4>
+            <p>
+                You're just one step away from completing your registration. Enter your final account details below,
+                agree to the terms, and secure your profile. We prioritize your data security and privacy.
+            </p>
+        </div>
+
+        <div id="message-box">
+        </div>
+
+        <div>
+            <label for="email">Email Address</label>
+            <input type="email" placeholder="Enter Email Address" id="email">
+        </div>
+
+        <div>
+            <label for="password">Password</label>
+            <input type="password" placeholder="Enter Password" id="password">
+        </div>
+
+        <div>
+            <label for="phoneNum">Phone Number</label>
+            <input type="number" placeholder="Enter Phone Number" id="phoneNum">
+        </div>
+
+        <div>
+            <div>
+                <input id="termsAccepted" type="checkbox">
+            </div>
+            <div>
+                <label for="termsAccepted">
+                    I agree to the <a href="#"
+                        onclick="showMessage('This link would normally display the full Terms and Conditions document.'); return false;">Terms
+                        and Conditions</a>.
+                </label>
+            </div>
+        </div>
+
+    </div>
+
+    <div>
+        <p>
+            Already have an account? <a href="signin.html">Sign In</a>
+        </p>
+
+        <div>
+            <button onclick="backAll()">
+                Back
+            </button>
+            <button onclick="signUser()" id="signup-btn">
+                Sign Up
+            </button>
+        </div>
+    </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, sendEmailVerification } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
+        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-database.js";
+        const firebaseConfig = {
+            apiKey: "AIzaSyDocTQeWER_kb6mxqNlmbv04M0339iaDDM",
+            authDomain: "project-8bb29.firebaseapp.com",
+            databaseURL: "https://project-8bb29-default-rtdb.firebaseio.com",
+            projectId: "project-8bb29",
+            storageBucket: "project-8bb29.firebasestorage.app",
+            messagingSenderId: "792700267479",
+            appId: "1:792700267479:web:d491f80fcd4c105faf3992",
+            measurementId: "G-KY94VPFHX5"
+        };
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const database = getDatabase(app);
+
+        const showMessage = (message, type = 'error') => {
+            const box = document.getElementById('message-box');
+            box.textContent = message;
+            box.className = 'p-3 mb-6 text-sm rounded-lg border transition duration-300 ease-in-out';
+            box.classList.remove('hidden');
+
+            if (type === 'error') {
+                box.classList.add('bg-red-50', 'text-red-700', 'border-red-300');
+            } else if (type === 'success') {
+                box.classList.add('bg-green-50', 'text-green-700', 'border-green-300');
+            } else if (type === 'info') {
+                box.classList.add('bg-blue-50', 'text-blue-700', 'border-blue-300');
+            }
+
+            setTimeout(() => {
+                box.classList.add('hidden');
+            }, 5000);
+        };
+
+        const signUser = () => {
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const phoneNum = document.getElementById('phoneNum').value.trim();
+            const termsAccepted = document.getElementById('termsAccepted').checked;
+
+            const signupButton = document.getElementById('signup-btn');
+
+            signupButton.disabled = true;
+            signupButton.classList.add('opacity-50', 'cursor-not-allowed');
+
+            if (email === '' || password === '' || phoneNum === '') {
+                showMessage('Please fill in all inputs: Email, Password, and Phone Number.');
+                signupButton.disabled = false;
+                signupButton.classList.remove('opacity-50', 'cursor-not-allowed');
+                return;
+            }
+
+            if (!termsAccepted) {
+                showMessage('You must agree to the Terms and Conditions to sign up.');
+                signupButton.disabled = false;
+                signupButton.classList.remove('opacity-50', 'cursor-not-allowed');
+                return;
+            }
+            createUserWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    const user = userCredential.user;
+                    setTimeout(() => {
+                        window.location.href = 'signin.html'
+                    }, 1500)
+                    sendEmailVerification(user)
+                        .then(() => {
+                            showMessage('Verification email sent. Please check your inbox');
+                            signupButton.disabled = false;
+                            signupButton.classList.remove('opacity-50', 'cursor-not-allowed');
+                        })
+                        .catch(() => {
+                            console.log('error sending email verification')
+                        })
+                })
+                .catch((error) => {
+                    const errorMessage = error.message;
+                    const errorCode = error.code;
+                    console.log(errorCode)
+                    console.log(errorMessage);
+                    if (error.code === "auth/email-already-in-use") {
+                        showMessage('An account already exists. Please log in instead');
+                        signupButton.disabled = false;
+                        signupButton.classList.remove('opacity-50', 'cursor-not-allowed');
+
+                        document.getElementById('fName').value = '';
+                        document.getElementById('sName').value = '';
+                        document.getElementById('email').value = '';
+                        document.getElementById('password').value = '';
+                    } else {
+                        let firstName = localStorage.getItem('name')
+                        let lastName = localStorage.getItem('lName')
+                        let WhatsappNumber = localStorage.getItem('number')
+                        let gender = localStorage.getItem('gender')
+                        let dateOfBirth = localStorage.getItem('dob')
+                        let selectJob = localStorage.getItem('select')
+                        let street = localStorage.getItem('street')
+                        let country = localStorage.getItem('country')
+                        let state = localStorage.getItem('sor')
+                        let city = localStorage.getItem('city')
+                        let qualification = localStorage.getItem('qualification')
+                        let school = localStorage.getItem('school')
+                        let course = localStorage.getItem('course')
+                        let graduationYear = localStorage.getItem('year')
+                        let certificate = localStorage.getItem('certificate')
+                        let selectedValue = localStorage.getItem('workExperience')
+                        let role = localStorage.getItem('role')
+                        let company = localStorage.getItem('company')
+                        let startYear = localStorage.getItem('startYear')
+                        let endYear = localStorage.getItem('endYear')
+                        let jobDescription = localStorage.getItem('description')
+                        let jobCategory = localStorage.getItem('job')
+                        let yearsOfExperience = localStorage.getItem('yearsOf')
+                        let whatYouCanDo = localStorage.getItem('describe')
+                        let files = localStorage.getItem('fileCount')
+                        let emergencyNameOne = localStorage.getItem('emergencyName')
+                        let emergencyPhoneOne = localStorage.getItem('emergencyPhone')
+                        let emergencyEmailOne = localStorage.getItem('emergencyEmail')
+                        let emergencyAddressOne = localStorage.getItem('emergencyAddress')
+                        let emergencyEmailTwo = localStorage.getItem('emergencyEmailTwo')
+                        let emergencyNameTwo = localStorage.getItem('emergencyNameTwo')
+                        let emergencyPhoneTwo = localStorage.getItem('emergencyPhoneTwo')
+                        let emergencyAddressTwo = localStorage.getItem('emergencyAddressTwo')
+                        let allUsers = { firstName, lastName, WhatsappNumber, gender, dateOfBirth, selectJob, street, country, state, city, qualification, school, course, graduationYear, certificate, selectedValue, role, company, startYear, endYear, jobDescription, jobCategory, yearsOfExperience, whatYouCanDo, files, emergencyEmailOne, emergencyPhoneOne, emergencyEmailOne, emergencyAddressOne, emergencyNameTwo, emergencyEmailTwo, emergencyPhoneTwo, emergencyAddressTwo, termsAccepted }
+                        let allUsersRef = ref(database, 'allArtisans')
+                        set(allUsersRef, allUsers)
+                        // alert(errorMessage);
+                    }
+                });
+            document.getElementById('email').value = '';
+            document.getElementById('password').value = '';
+            document.getElementById('phoneNum').value = '';
+            document.getElementById('termsAccepted').checked = false;
+        }
+
+        const backAll = () => {
+            setTimeout(() => {
+                window.location.href = 'nextseven.html';
+            }, 1500);
+        }
+
+        window.signUser = signUser;
+        window.backAll = backAll;
+        window.showMessage = showMessage;
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Educational Qualification</title>
+</head>
+<body>
+    <div id="app">
+        <div>
+            <h3>Educational Qualification</h3>
+            <h5>Show Your Skill. Prove Your Expertise</h5>
+            <p>
+                At <b>Artisan Connect,</b> we believe <b>education comes in many forms</b>—from formal training to hands-on
+                experience. Your <b>Educational Qualification</b> helps us understand your background and build trust
+                with customers looking for reliable professionals.
+            </p>
+        </div>
+        <div id="message-box"></div>
+            <div>
+                <label for="qualification">Qualification Level</label>
+                <select name="Select your qualification" id="qualification">
+                    <option value="" disabled selected>Select your highest qualification</option>
+                    <option value="No Education">No Education</option>
+                    <option value="Primary School">Primary School</option>
+                    <option value="Secondary/High school">Secondary/High school</option>
+                    <option value="Technical School">Technical School</option>
+                    <option value="College of Education">College of Education</option>
+                    <option value="Polythenic">Polytechnic</option>
+                    <option value="University">University</option>
+                </select>
+            </div>
+            <div>
+                <label for="school">School Name</label>
+                <input type="text" placeholder="Enter School Name" id="school">
+            </div>
+            <div>
+                <label for="course">Course of Study</label>
+                <input type="text" placeholder="Enter Course" id="course">
+            </div>
+            <div>
+                <label for="year">Graduation Year</label>
+                <input type="text" placeholder="Enter Year (e.g., 2020)" id="year">
+            </div>
+            <div>
+                <label for="certificate">Certificate Obtained (e.g., FSLC, HND, BSc, Diploma)</label>
+                <input type="text" placeholder="Enter Certificate" id="certificate">
+            </div>
+
+        </div>
+        <div>
+            <p>
+                Already Registered? <a href="signin.html">Log in Now</a>
+            </p>
+            <div>
+                <button onclick="backTwo()" id="back-btn">
+                    Back
+                </button>
+                <button onclick="nextThree()" id="next-btn">
+                    Next
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const showMessage = (message, type = 'error') => {
+            const box = document.getElementById('message-box');
+            box.textContent = message;
+            box.className = 'p-3 mb-6 text-sm rounded-lg border transition duration-300 ease-in-out';
+            box.classList.remove('hidden');
+
+            if (type === 'error') {
+                box.classList.add('bg-red-50', 'text-red-700', 'border-red-300');
+            } else if (type === 'success') {
+                box.classList.add('bg-green-50', 'text-green-700', 'border-green-300');
+            } else if (type === 'info') {
+                box.classList.add('bg-blue-50', 'text-blue-700', 'border-blue-300');
+            }
+
+            setTimeout(() => {
+                box.classList.add('hidden');
+            }, 5000);
+        };
+
+        const nextThree = () => {
+            const qualification = document.getElementById('qualification').value.trim();
+            const school = document.getElementById('school').value.trim();
+            const course = document.getElementById('course').value.trim();
+            const graduationYear = document.getElementById('year').value.trim();
+            const certificate = document.getElementById('certificate').value.trim();
+            
+            const nextButton = document.getElementById('next-btn');
+            nextButton.disabled = true;
+            nextButton.classList.add('opacity-50', 'cursor-not-allowed');
+
+            if (qualification === '' || school === '' || course === '' || graduationYear === '' || certificate === '') {
+                showMessage('All input fields must be filled out to proceed.', 'error');
+                nextButton.disabled = false;
+                nextButton.classList.remove('opacity-50', 'cursor-not-allowed');
+                return;
+            } else {
+                localStorage.setItem('qualification', qualification.toLowerCase());
+                localStorage.setItem('school', school.toLowerCase());
+                localStorage.setItem('course', course.toLowerCase());
+                localStorage.setItem('year', graduationYear.toLowerCase());
+                localStorage.setItem('certificate', certificate.toLowerCase());
+                setTimeout(() => {
+                    window.location.href = "nextthree.html";
+                }, 1500);
+            }
+        };
+
+        const backTwo = () => {
+            setTimeout(() => {
+                window.location.href = "next.html";
+            }, 1500);
+        };
+    </script>
+</body>
+</html>

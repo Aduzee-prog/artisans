@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+</head>
+
+<body>
+    <div>
+        <div>
+            <label for="email">Email Address</label>
+            <input type="email" placeholder="Enter Email Address" id="email">
+            <label for="password">Password</label>
+            <input type="password" placeholder="Enter Password" id="password">
+            <label for="phoneNum">Phone</label>
+            <input type="number" placeholder="Enter Phone Number" id="phoneNum">
+        </div>
+        <div>
+            <button onclick="backCus()">Back</button>
+            <button onclick="signUser()">Sign Up</button>
+        </div>
+    </div>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, sendEmailVerification } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
+        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-database.js";
+        const firebaseConfig = {
+            apiKey: "AIzaSyDocTQeWER_kb6mxqNlmbv04M0339iaDDM",
+            authDomain: "project-8bb29.firebaseapp.com",
+            databaseURL: "https://project-8bb29-default-rtdb.firebaseio.com",
+            projectId: "project-8bb29",
+            storageBucket: "project-8bb29.firebasestorage.app",
+            messagingSenderId: "792700267479",
+            appId: "1:792700267479:web:d491f80fcd4c105faf3992",
+            measurementId: "G-KY94VPFHX5"
+        };
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const database = getDatabase(app);
+
+
+        const signUser = () => {
+            if (email.value === '' || password.value === '' || phoneNum.value === '') {
+                alert('Please fill in all Inputs')
+            } else {
+                let email = document.getElementById('email').value.toLowerCase();
+                let password = document.getElementById('password').value
+                let phone = document.getElementById('phoneNum').value
+
+                let firstName = localStorage.getItem('fName')
+                let lastName = localStorage.getItem('sName')
+                let country = localStorage.getItem('country')
+                let state = localStorage.getItem('state')
+                let city = localStorage.getItem('city')
+                let allData = { firstName, lastName, email, password, phone, country, state, city }
+                let allDataRef = ref(database, 'users')
+                set(allDataRef, allData)
+                createUserWithEmailAndPassword(auth, email, password)
+                    .then((userCredential) => {
+                        const user = userCredential.user;
+                        setTimeout(() => {
+                            window.location.href = 'signin.html'
+                        }, 1500)
+                        sendEmailVerification(user)
+                            .then(() => {
+                                alert('Verification email sent. Please check your inbox')
+                            })
+                            .catch(() => {
+                                console.log('error sending email verification')
+                            })
+                    })
+                    .catch((error) => {
+                        const errorCode = error.code
+                        const errorMessage = error.message;
+                        console.log(errorCode)
+                        console.log(errorMessage);
+                        if (error.code === "auth/email-already-in-use") {
+                            alert("An account already exists. Please log in instead")
+                            document.getElementById('fName').value = '';
+                            document.getElementById('sName').value = '';
+                            document.getElementById('email').value = '';
+                            document.getElementById('password').value = '';
+                        } else {
+                            alert(errorMessage);
+                        }
+                    });
+                document.getElementById('email').value = ''
+                document.getElementById('password').value = ''
+                document.getElementById('phoneNum').value = ''
+            }
+        }
+        const backCus = () => {
+            setTimeout(() => {
+                window.location.href = 'customer.html';
+            }, 1500)
+        }
+        window.signUser = signUser
+        window.backCus = backCus;
+    </script>
+</body>
+
+</html>

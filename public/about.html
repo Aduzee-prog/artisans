@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us</title>
+    <link rel="stylesheet" href="styl.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+</head>
+
+<body>
+    <!-- NAV -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-body-tertiary shadow fixed-top">
+        <div class="container-fluid w-75 mx-auto">
+            <h1 class="text-primary-emphasis fw-bold">Artisans</h1>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <img src="/images/list-1294835_1280 (1).png" alt="" width="25px">
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-link active p-3" aria-current="page" href="#" onclick="home()">Home</a>
+                    <a class="nav-link p-3 href=" #" onclick="about()">About Us</a>
+                    <a class="nav-link p-3 href=" #">Browse Workers</a>
+                    <a class="nav-link p-3 href=" #">Job Available</a>
+                    <a class="nav-link p-3 href=" #" onclick="contactUs()">Contact Us</a>
+                    <button class="m-2" type="button" id="login">Log In</button>
+                    <button class="m-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop" type="button">Sign
+                        Up</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Modal -->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Go for the right
+                        post</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <button onclick="registerUser()" class="m-2 fw-bold" id="hero" type="submit">Register as a
+                        user</button>
+                    <button onclick="registerCustomer()" class="m-2 fw-bold" type="submit">Register as a
+                        customer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="text text-center">
+        <h1 class="aboutText">About Us</h1>
+    </section>
+
+    <!-- Body -->
+     <section>
+        <div>
+            <h2></h2>
+        </div>
+     </section>
+
+    <!-- footer -->
+    <footer class="footer">
+        <div class="row flex-column-reverse flex-lg-row justify-content-around align-items-center text-center">
+            <div class=" col-11 col-xlg-4 col-xxlg-4 col-lg-5 col-sm-11 col-md-11 text-center text-white b-2">
+                © 2025 Artisan | All Rights Reserved.
+            </div>
+            <div class=" col-11 col-xlg-4 col-xxlg-4 col-lg-5 col-sm-11 col-md-11 text-center">
+                <a href="#" class="text-white text-decoration-none mx-2" onclick="about()">About</a>
+                <a href="#" class="text-white text-decoration-none mx-2" onclick="FAQ()">FAQ</a>
+                <a href="#" class="text-white text-decoration-none mx-2" onclick="contactUs()">Contact</a>
+                <a href="#" class="text-white text-decoration-none mx-2" onclick="privacy()">Privacy</a>
+            </div>
+        </div>
+    </footer>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+    crossorigin="anonymous"></script>
+<script src="/script.js"></script>
+
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Category & Expertise</title>
+</head>
+<body>
+
+    <div id="app">
+
+        <div>
+            <h3>Job Category & Expertise</h3>
+            <h5>Define Your Skillset</h5>
+            <p>
+                Choose your profession and detail your experience to attract potential customers.
+            </p>
+        </div>
+
+        <div id="message-box"></div>
+
+            <div>
+                <label for="job">Select Job Category</label>
+                <select name="Select Job category" id="job">
+                    <option value="" disabled selected>Select Job category</option>
+                    <option value="Tailor">Tailor</option>
+                    <option value="Plumber">Plumber</option>
+                    <option value="Mechanic">Mechanic</option>
+                    <option value="Shoe Maker">Shoe Maker</option>
+                    <option value="MakeUp Artist">MakeUp Artist</option>
+                    <option value="Furniture Maker">Furniture Maker</option>
+                    <option value="Tech Repair (Phone and Laptop)">Tech Repair (Phone and Laptop)</option>
+                    <option value="Event Planner">Event Planner</option>
+                    <option value="Baker">Baker</option>
+                    <option value="Photographer">Photographer</option>
+                    <option value="Barber">Barber</option>
+                    <option value="Tiler">Tiler</option>
+                </select>
+            </div>
+            <div>
+                <label for="yearsOf">Years of Experience</label>
+                <input type="text" placeholder="Enter the years" id="yearsOf">
+            </div>
+
+            <div>
+                <label for="describe">Describe what you can do</label>
+                <textarea placeholder="I can do..." id="describe" rows="4"></textarea>
+            </div>
+
+            <div>
+                <label for="cv">Upload CV</label>
+                <input type="file" id="cv">
+            </div>
+            
+        </div>
+        <div>
+            <p>
+                Already Registered? <a href="signin.html">Log in Now</a>
+            </p>
+            
+            <div>
+                <button onclick="backFour()" id="back-btn">
+                    Back
+                </button>
+                <button onclick="nextFive()" id="next-btn">
+                    Next
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const showMessage = (message, type = 'error') => {
+            const box = document.getElementById('message-box');
+            box.textContent = message;
+            box.className = 'p-3 mb-6 text-sm rounded-lg border transition duration-300 ease-in-out';
+            box.classList.remove('hidden');
+
+            if (type === 'error') {
+                box.classList.add('bg-red-50', 'text-red-700', 'border-red-300');
+            } else if (type === 'success') {
+                box.classList.add('bg-green-50', 'text-green-700', 'border-green-300');
+            } else if (type === 'info') {
+                box.classList.add('bg-blue-50', 'text-blue-700', 'border-blue-300');
+            }
+
+            setTimeout(() => {
+                box.classList.add('hidden');
+            }, 5000);
+        };
+
+        const nextFive = () => {
+            const workExperience = localStorage.getItem('workExperience');
+            
+            const jobCategory = document.getElementById('job').value.trim();
+            const yearsOfExperience = document.getElementById('yearsOf').value.trim();
+            const whatYouCanDo = document.getElementById('describe').value.trim();
+            const cvFile = document.getElementById('cv').files;
+
+            const nextButton = document.getElementById('next-btn');
+            nextButton.disabled = true;
+            nextButton.classList.add('opacity-50', 'cursor-not-allowed');
+
+
+            if (jobCategory === '' || yearsOfExperience === '' || whatYouCanDo === '' || cvFile.length === 0) {
+                showMessage('Please fill in all job details (Category, Years, and Description) and **upload your CV**.');
+                nextButton.disabled = false;
+                nextButton.classList.remove('opacity-50', 'cursor-not-allowed');
+            } else if (workExperience === 'noExperience') {
+                showMessage('Note: You previously selected "No Work Experience."');
+            }
+             else {
+                localStorage.setItem('job', jobCategory.toLowerCase());
+                localStorage.setItem('yearsOf', yearsOfExperience.toLowerCase());
+                localStorage.setItem('describe', whatYouCanDo.toLowerCase());
+                
+                setTimeout(() => {
+                    window.location.href = "nextfive.html";
+                }, 1500);
+            }
+        };
+
+        const backFour = () => {
+            setTimeout(() => {
+                window.location.href = "nextthree.html"; 
+            }, 1500);
+        };
+    </script>
+</body>
+</html>

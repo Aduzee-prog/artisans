@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Portfolio</title>
+</head>
+<body>
+
+    <div id="app">
+
+        <div>
+            <h4>Upload Picture(s) of your Work</h4>
+            <p>
+                Showcase your expertise! Upload examples of your best work to build customer trust.
+            </p>
+        </div>
+
+        <div id="message-box"></div>
+
+            <div>
+                <label for="files">Portfolio Images (Select multiple)</label>
+                <input type="file" multiple id="files">
+            </div>
+            
+        </div>
+
+        <div>
+            <p>
+                Already Registered? <a href="signin.html">Log in Now</a>
+            </p>
+
+            <div>
+                <button onclick="backFive()">
+                    Back
+                </button>
+                <button onclick="nextSix()" id="next-btn">
+                    Next
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const showMessage = (message, type = 'error') => {
+            const box = document.getElementById('message-box');
+            box.textContent = message;
+            box.className = 'p-3 mb-6 text-sm rounded-lg border transition duration-300 ease-in-out';
+            box.classList.remove('hidden');
+
+            if (type === 'error') {
+                box.classList.add('bg-red-50', 'text-red-700', 'border-red-300');
+            } else if (type === 'success') {
+                box.classList.add('bg-green-50', 'text-green-700', 'border-green-300');
+            } else if (type === 'info') {
+                box.classList.add('bg-blue-50', 'text-blue-700', 'border-blue-300');
+            }
+
+            setTimeout(() => {
+                box.classList.add('hidden');
+            }, 5000);
+        };
+        
+        const nextSix = () => {
+            const fileInput = document.getElementById('files');
+            const files = fileInput.files; 
+            const nextButton = document.getElementById('next-btn');
+
+            nextButton.disabled = true;
+            nextButton.classList.add('opacity-50', 'cursor-not-allowed');
+
+            if (files.length === 0) {
+                showMessage('Please upload at least one picture of your work to proceed.', 'error');
+
+                nextButton.disabled = false;
+                nextButton.classList.remove('opacity-50', 'cursor-not-allowed');
+                return; 
+            } else {
+                localStorage.setItem('fileCount', files.length); 
+                
+                setTimeout(() => {
+                    window.location.href = "nextSix.html";
+                }, 1500);
+            }
+        }
+
+        const backFive = () => {
+            setTimeout(() => {
+                window.location.href = "nextfour.html";
+            }, 1500);
+        }
+    </script>
+</body>
+</html>

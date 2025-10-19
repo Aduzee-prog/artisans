@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div>
+        <div>
+            <h4>Create Your Artisan Connect Account</h4>
+            <p>Your trusted link to skilled professionals anytime, amywhere.</p>
+            <p>Find mechanics, tailors, plumbers, electricians, and more with just few taps. Join thousands of customers
+                already using <b>Artisan Connect</b> to get quick, quality services without stress.</p>
+        </div>
+        <div>
+            <label for="First Name">First Name</label>
+            <input type="text" placeholder="Enter First Name" id="fName">
+            <label for="Last Name">Last Name</label>
+            <input type="text" placeholder="Enter Last Name" id="sName">
+            <label for="Country">Country</label>
+            <select name="Country" id="country">
+                <option value="">Select Country</option>
+                <option value="algeria">Algeria</option>
+                <option value="angola">Angola</option>
+                <option value="benin">Benin</option>
+                <option value="botswana">Botswana</option>
+                <option value="burkina-faso">Burkina Faso</option>
+                <option value="burundi">Burundi</option>
+                <option value="cameroon">Cameroon</option>
+                <option value="cape-verde">Cape Verde</option>
+                <option value="cote-divoire">Cote D'Ivoire (Ivory Coast)</option>
+                <option value="egypt">Egypt</option>
+                <option value="ethopia">Ethopia</option>
+                <option value="french-southern-territories">French Southern Territories</option>
+                <option value="gabon">Gabon</option>
+                <option value="ghana">Ghana</option>
+                <option value="kenya">Kenya</option>
+                <option value="liberia">Liberia</option>
+                <option value="mali">Mali</option>
+                <option value="maritius">Maritius</option>
+                <option value="namibia">Namibia</option>
+                <option value="niger">Niger</option>
+                <option value="nigeria">Nigeria</option>
+                <option value="rwanda">Rwanda</option>
+                <option value="somalia">Somalia</option>
+                <option value="south-africa">South Africa</option>
+                <option value="tanzania">Tanzania</option>
+                <option value="togo">Togo</option>
+                <option value="uganda">Uganda</option>
+                <option value="western-sahara">Western sahara</option>
+                <option value="zambia">Zambia</option>
+                <option value="zimbabwe">Zimbabwe</option>
+            </select>
+            <label for="State">State</label>
+            <select name="State" id="state">
+                <option value="">Select State</option>
+                <option value="abia">Abia</option>
+                <option value="oyo">Oyo</option>
+                <option value="Lagos">Lagos</option>
+                <option value=""></option>
+                <option value=""></option>
+                <option value=""></option>
+                <option value=""></option>
+                <option value=""></option>
+                <option value=""></option>
+                <option value=""></option>
+                <option value=""></option>
+                <option value=""></option>
+                <option value=""></option>
+                <option value=""></option>
+                <option value=""></option>
+                <option value=""></option>
+                <option value=""></option>
+                <option value=""></option>
+                <option value=""></option>
+                <option value=""></option>
+                <option value=""></option>
+            </select>
+            <label for="City">City</label>
+            <select name="City" id="city">
+                <option value="">Select City</option>
+                <option value="agege">Agege</option>
+                <option value="ogbomosho">Ogbomosho</option>
+                <option value=""></option>
+                <option value=""></option>
+                <option value=""></option>
+                <option value=""></option>
+                <option value=""></option>
+                <option value=""></option>
+                <option value=""></option>
+                <option value=""></option>
+                <option value=""></option>
+                <option value=""></option>
+                <option value=""></option>
+                <option value=""></option>
+                <option value=""></option>
+                <option value=""></option>
+                <option value=""></option>
+                <option value=""></option>
+                <option value=""></option>
+                <option value=""></option>
+            </select>
+            <div>
+                <p>Already have an account? <a href="signin.html">Sign In Here</a></p>
+            </div>
+        </div>
+        <div>
+            <button onclick="signUserNext()">Next</button>
+        </div>
+    </div>
+    <script>
+        const signUserNext = () => {
+            if (fName.value === '' || sName.value === '' || country.value === '' || state.value === '' || city.value === '') {
+                alert('Please fill in all Inputs')
+            } else {
+                let firstName = document.getElementById('fName').value.toLowerCase();
+                let lastName = document.getElementById('sName').value.toLowerCase();
+                let country = document.getElementById('country').value.toLowerCase();
+                let state = document.getElementById('state').value.toLowerCase();
+                let city = document.getElementById('city').value.toLowerCase();
+
+                localStorage.setItem('fName', firstName)
+                localStorage.setItem('sName', lastName)
+                localStorage.setItem('country', country)
+                localStorage.setItem('state', state)
+                localStorage.setItem('city', city)
+                setTimeout(() => {
+                    window.location.href = 'custom.html'
+                }, 1500)
+                // document.getElementById('fName').value = ''
+                // document.getElementById('sName').value = ''
+                // document.getElementById('country').value = ''
+                // document.getElementById('state').value = ''
+                // document.getElementById('city').value = ''
+            }
+        }
+        window.signUserNext = signUserNext
+    </script>
+</body>
+
+</html>

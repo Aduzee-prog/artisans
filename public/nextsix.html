@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emergency Contact</title>
+</head>
+<body>
+
+    <div id="app">
+
+        <div>
+            <h4>Emergency Contact</h4>
+            <p>
+                Your safety is our top priority. Providing an **emergency contact** helps us reach someone you trust
+                in case of urgent situations, unexpected incidents, or health emergencies.
+            </p>
+        </div>
+
+        <div id="message-box"></div>
+
+            <div>
+                <label for="emergencyName">Full Name</label>
+                <input type="text" placeholder="Enter Full Name" id="emergencyName">
+            </div>
+
+            <div>
+                <label for="emergencyPhone">Phone Number</label>
+                <input type="tel" placeholder="Enter Phone Number" id="emergencyPhone">
+            </div>
+
+            <div>
+                <label for="emergencyEmail">Email</label>
+                <input type="email" placeholder="Enter Email" id="emergencyEmail">
+            </div>
+
+            <div>
+                <label for="emergencyAddress">Address</label>
+                <input type="text" placeholder="Enter Address" id="emergencyAddress">
+            </div>
+            
+        </div>
+
+        <div>
+            <p>
+                Already Registered? <a href="signin.html">Log in Now</a>
+            </p>
+
+            <div>
+                <button onclick="backSix()">
+                    Back
+                </button>
+                <button onclick="nextSeven()" id="next-btn">
+                    Next
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        const showMessage = (message, type = 'error') => {
+            const box = document.getElementById('message-box');
+            box.textContent = message;
+            box.className = 'p-3 mb-6 text-sm rounded-lg border transition duration-300 ease-in-out';
+            box.classList.remove('hidden');
+
+            if (type === 'error') {
+                box.classList.add('bg-red-50', 'text-red-700', 'border-red-300');
+            } else if (type === 'success') {
+                box.classList.add('bg-green-50', 'text-green-700', 'border-green-300');
+            } else if (type === 'info') {
+                box.classList.add('bg-blue-50', 'text-blue-700', 'border-blue-300');
+            }
+
+            setTimeout(() => {
+                box.classList.add('hidden');
+            }, 5000);
+        };
+        
+        const nextSeven = () => {
+            const emergencyNameOne = document.getElementById('emergencyName').value.trim();
+            const emergencyPhoneOne = document.getElementById('emergencyPhone').value.trim();
+            const emergencyEmailOne = document.getElementById('emergencyEmail').value.trim();
+            const emergencyAddressOne = document.getElementById('emergencyAddress').value.trim();
+            const nextButton = document.getElementById('next-btn');
+
+            nextButton.disabled = true;
+            nextButton.classList.add('opacity-50', 'cursor-not-allowed');
+
+            if (emergencyNameOne === '' || emergencyPhoneOne === '' || emergencyEmailOne === '' || emergencyAddressOne === '') {
+                showMessage('Please fill in all four fields for your emergency contact.');
+                
+                nextButton.disabled = false;
+                nextButton.classList.remove('opacity-50', 'cursor-not-allowed');
+                return;
+            } else {
+                localStorage.setItem('emergencyName', emergencyNameOne.toLowerCase());
+                localStorage.setItem('emergencyPhone', emergencyPhoneOne.toLowerCase());
+                localStorage.setItem('emergencyEmail', emergencyEmailOne.toLowerCase());
+                localStorage.setItem('emergencyAddress', emergencyAddressOne.toLowerCase());
+                
+                setTimeout(() => {
+                    window.location.href = "nextSeven.html";
+                }, 1500);
+            }
+        }
+
+        const backSix = () => {
+            setTimeout(() => {
+                window.location.href = "nextfive.html";
+            }, 1500);
+        }
+    </script>
+</body>
+</html>

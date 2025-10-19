@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Work Experience</title>
+</head>
+
+<body>
+
+    <div id="app">
+        <div>
+            <h3>Work Experience</h3>
+            <h5>Share Your Employment History</h5>
+            <p>
+                Let customers know your background. If you have experience, please provide details below.
+            </p>
+        </div>
+
+        <div id="message-box">
+        </div>
+
+        <div>
+            <div>
+                <label for="exper">Select Employment
+                    History</label>
+                <select name="Select Work Experience" id="exper" onchange="handleExperienceChange()">
+                    <option value="" disabled selected>Select Employment History</option>
+                    <option value="NoExperience">No Work Experience</option>
+                    <option value="hasExperience">Work Experience</option>
+                </select>
+            </div>
+
+            <div id="exact">
+                <p>Employment Details</p>
+
+                <div>
+                    <label for="company">Company Name</label>
+                    <input type="text" placeholder="Enter company name" id="company">
+                </div>
+
+                <div>
+                    <label for="role">Role</label>
+                    <input type="text" placeholder="Enter your role/title" id="role">
+                </div>
+
+                <div>
+                    <label for="startYear">Start Year</label>
+                    <input type="number" placeholder="e.g., 2018" id="startYear">
+                </div>
+
+                <div>
+                    <label for="endYear">End Year /
+                        Current</label>
+                    <input type="number" placeholder="e.g., 2023 or leave blank if current" id="endYear">
+                </div>
+
+                <div>
+                    <label for="description">Job Description /
+                        Responsibilities</label>
+                    <textarea placeholder="Describe your key tasks and achievements..." id="description" rows="3"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <p>
+                Already Registered? <a href="signin.html">Log in Now</a>
+            </p>
+
+            <div>
+                <button onclick="backThree()" id="back-btn">
+                    Back
+                </button>
+                <button onclick="nextFour()" id="next-btn">
+                    Next
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const showMessage = (message, type = 'error') => {
+            const box = document.getElementById('message-box');
+            box.textContent = message;
+            box.className = 'p-3 mb-6 text-sm rounded-lg border transition duration-300 ease-in-out';
+            box.classList.remove('hidden');
+
+            if (type === 'error') {
+                box.classList.add('bg-red-50', 'text-red-700', 'border-red-300');
+            } else if (type === 'success') {
+                box.classList.add('bg-green-50', 'text-green-700', 'border-green-300');
+            } else if (type === 'info') {
+                box.classList.add('bg-blue-50', 'text-blue-700', 'border-blue-300');
+            }
+
+            setTimeout(() => {
+                box.classList.add('hidden');
+            }, 5000);
+        };
+
+        function handleExperienceChange() {
+            const selectedValue = document.getElementById('exper').value;
+            const exact = document.getElementById('exact');
+
+            if (selectedValue === 'hasExperience') {
+                exact.classList.remove('hidden');
+            } else {
+                exact.classList.add('hidden');
+            }
+        }
+
+        const nextFour = () => {
+            const experElement = document.getElementById('exper');
+            const selectedValue = experElement.value.trim();
+
+            const nextButton = document.getElementById('next-btn');
+            nextButton.disabled = true;
+            nextButton.classList.add('opacity-50', 'cursor-not-allowed');
+
+            if (selectedValue === '') {
+                showMessage('Please select your employment history before proceeding.', 'error');
+                nextButton.disabled = false;
+                nextButton.classList.remove('opacity-50', 'cursor-not-allowed');
+                return;
+            }
+
+            if (selectedValue === 'NoExperience') {
+                localStorage.setItem('workExperience', selectedValue.toLowerCase());
+                showMessage('No experience recorded. Navigating...');
+                setTimeout(() => {
+                    window.location.href = 'nextfour.html';
+                }, 1500);
+                return;
+            }
+
+            if (selectedValue === 'hasExperience') {
+                const role = document.getElementById('role').value.trim();
+                const company = document.getElementById('company').value.trim();
+                const startYear = document.getElementById('startYear').value.trim();
+                const jobDescription = document.getElementById('description').value.trim();
+                const endYear = document.getElementById('endYear').value.trim();
+
+                if (role === '' || company === '' || startYear === '' || jobDescription === '') {
+                    showMessage('Please fill in all mandatory employment fields (Company, Role, Start Year, Description).');
+                    nextButton.disabled = false;
+                    nextButton.classList.remove('opacity-50', 'cursor-not-allowed');
+                    return;
+                }
+                localStorage.setItem('workExperience', selectedValue.toLowerCase());
+                localStorage.setItem('role', role.toLowerCase());
+                localStorage.setItem('company', company.toLowerCase());
+                localStorage.setItem('startYear', startYear.toLowerCase());
+                localStorage.setItem('endYear', endYear.toLowerCase());
+                localStorage.setItem('description', jobDescription.toLowerCase());
+
+                setTimeout(() => {
+                    window.location.href = "nextfour.html";
+                }, 1500);
+                return;
+            }
+            nextButton.disabled = false;
+            nextButton.classList.remove('opacity-50', 'cursor-not-allowed');
+        };
+
+        const backThree = () => {
+            setTimeout(() => {
+                window.location.href = "nexttwo.html";
+            }, 1500);
+        };
+    </script>
+</body>
+
+</html>

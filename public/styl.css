@@ -309,7 +309,7 @@
   display: inline-block;
   width: 100%;
   padding: 50px;
-  margin-bottom: 70px;
+  margin-bottom: 80px;
  /* controls vertical space around text */
 }
 
@@ -317,29 +317,44 @@
   font-weight: bold;
   color: white;
   /* clamp fallback: min 2rem, scales with viewport, max 6rem */
-  font-size: clamp(2rem, 5vw, 6rem);
+  font-size: clamp(2rem, 3vw, 5rem);
   margin: 0;
   padding-top: 50px;
 }
 .text {
   text-align: center;
   color: rgb(19, 19, 85);
-  font-size: large; /* default size */
+  font-size: large; /* default for desktop */
 }
+
+/* Medium screen (tablets) */
+@media (max-width: 992px) {
+  .text {
+    font-size: medium;
+  }
+}
+
+/* Small screen (phones) */
+@media (max-width: 600px) {
+  .text {
+    font-size: small;
+  }
+}
+
 
 /* For small screens */
-@media (max-width: 576px) {
+/* @media (max-width: 576px) {
   .text {
-    font-size: small; /* smaller on phones */
-  }
-}
+    font-size: 10px; /* smaller on phones */
+  
+
 
 /* For extra small screens (optional) */
-@media (max-width: 400px) {
+/* @media (max-width: 400px) {
   .text {
-    font-size: smaller;
+    font-size: 5px;
   }
-}
+} */ 
 .text-topic{
   color: rgb(19, 19, 85);
   text-align: center;
@@ -352,22 +367,20 @@
   color: #212529;
 }
 
-/* Ensure no extra gap between hero and the following section */
 .text-hero {
-  display: block; /* make predictable block element */
+  display: block;
   width: 100%;
-  padding: 50px 0; /* vertical padding to control space inside hero */
-}
+  padding: 50px 0;
 
 .text-hero + section {
-  margin-top: 0; /* remove default gap from headings/sections */
+  margin-top: 0; 
   padding-top: 0;
 }
 
-.text-topic {
+/* .text-topic {
   color: rgb(19, 19, 85);
   font-size: 2rem;
-}
+} */
 
 .question-section {
   transition: 0.3s;
